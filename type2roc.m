@@ -1,13 +1,15 @@
-% Taken from Fleming & Chau (2014)
+% Taken from Fleming & Lau (2014)
+% Computes metacognitive sensitivity accounting for metacognitive bias.
 
 function auroc2 = type2roc(correct, conf, Nratings)
+
 % function auroc2 = type2roc(correct, conf, Nratings)
 %
 % Calculate area under type 2 ROC
 % 
 % correct - vector of 1 x ntrials, 0 for error, 1 for correct
 % conf - vector of 1 x ntrials of confidence ratings taking values 1:Nratings
-% Nratings - how many confidence levels available
+% Nratings - how many confidence levels available (typically 4 where 1="not sure" and 4="sure")
  
 i = Nratings+1;
 for c = 1:Nratings

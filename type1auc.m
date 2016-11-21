@@ -1,9 +1,10 @@
 %% 2015-12-17 Julian - Type-I AUC calculator
 % Objective Performance modified for -4 to 4 confidence judgments
-
+% Nonparametric estimate of task sensitivity
+%
 % Input signal truth ('signal') = [-1 1] or Left & Right
 % Input choices ('decision') = [-4 : 4] or 1:4 Left & 1:4 Right
-
+%
 % Output is a pure frequency table and cumulative frequencies
 % Also Type-I AUC calculated using AreaUnderROC
 

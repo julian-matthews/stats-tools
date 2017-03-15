@@ -1,3 +1,6 @@
+%% APPENDING A FEW OLD FILES HERE TO MAKE THE 'ULTIMATE' SELF-CONTAINED 8AFC RESPONSE SCREEN
+
+
 % 23/07/2015 - RSVP wheely_confident
 % Draws/flips confidence wheel along with distractor & probe faces
 % Requires 'trial' value, 'TR' data & 'Exp' data for configuration

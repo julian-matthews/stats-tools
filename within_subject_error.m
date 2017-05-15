@@ -10,8 +10,11 @@ function [ within_subj_error, error_matrix] = within_subject_error( condition_on
 %   subject variability by subtracting subject average from each cell +
 %   adding grand average, and computes standard error of the mean from
 %   these relative values.
-%
+%   
+%   Process adapted from CogSci.nl
 %   See: http://www.cogsci.nl/blog/tutorials/156-an-easy-way-to-create-graphs-with-within-subject-error-bars
+%
+%   Julian Matthews (2017)
 
 temp = vertcat(condition_one,condition_two)'; % Assume row vector input
 

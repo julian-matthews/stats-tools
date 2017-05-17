@@ -66,10 +66,10 @@ Z = sqrt(J/(J-1)) * (Y-repmat(mean(Y), size(Y,1),1)) ...
     + repmat(mean(Y), size(Y,1),1);
 
 % Matrix includes grand average for sanity check (should be same for all)
-error_matrix = horzcat(Z,ones(size(data,1))*grand_avg);
+error_matrix = horzcat(Z,ones(size(data,1),1)*grand_avg);
 
 % Calculate standard error of the mean. This can be multiplied by 1.96 to
 % give the 95% Confidence Interval
-within_subj_error = nanstd(Z)/size(data,1);
+within_subj_error = nanstd(Z)/sqrt(size(data,1));
 
 end

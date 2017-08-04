@@ -1,4 +1,7 @@
 function [ within_subj_error, error_matrix] = within_subject_error( data, fixed )
+%
+% [ within_subj_error, error_matrix] = within_subject_error( data, fixed )
+%
 % WITHIN-SUBJECT ERROR BARS for WITHIN-SUBJECT DESIGNS
 %   Based off method described by Cousineau (2005): 'Confidence 
 %   intervals in within-subject designs' and updated in O'Brien & Cousineau

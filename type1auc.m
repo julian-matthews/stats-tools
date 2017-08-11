@@ -7,6 +7,8 @@
 %
 % Output is a pure frequency table and cumulative frequencies
 % Also Type-I AUC calculated using AreaUnderROC
+%
+% Can also output d-prime and criterion
 
 function [Frequencies, Cumulative_Frequencies, Type_One_AUC,dprime,criterion] = type1auc(signal,decision)
 

@@ -10,12 +10,21 @@ function auroc2 = type2roc(correct, conf, Nratings)
 % conf - vector of 1 x ntrials of confidence ratings taking values 1:Nratings
 % Nratings - how many confidence levels available (typically 4 where 1="not sure" and 4="sure")
 
+if size(correct)~=size(conf)
+    % Ensure that vectors are same dimensions
+    disp('Dimension mismatch! Correction made but examine code!')
+    correct = reshape(correct,[],1);
+    conf = reshape(conf,[],1);
+end
+
 i = Nratings+1;
 for c = 1:Nratings
     H2(i-1) = length(find(conf == c & correct)) + 0.5;
     FA2(i-1) = length(find(conf == c & ~correct)) + 0.5;
     i = i-1;
 end
+
+H2save = H2; FA2save = FA2;
 
 H2 = H2./sum(H2);
 FA2 = FA2./sum(FA2);

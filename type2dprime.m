@@ -18,10 +18,10 @@ end
 conf = abs(conf);
 
 % Recode into high||low confidence
-for this = 1:length(t2_conf)
+for this = 1:length(conf)
     if conf(this) >= confid_threshold
         reconf(this) = 1;
-    elseif t2_conf(this) <= (confid_threshold-1)
+    elseif conf(this) <= (confid_threshold-1)
         reconf(this) = -1;
     end
 end
@@ -38,9 +38,9 @@ for row = 1:length(correct)
         end
     end
     for confidence = -1 % LOW CONFIDENCE
-        if t2_reconf(row)==confidence && t2_corr(row)==1
+        if reconf(row)==confidence && correct(row)==1
             Frq(1,2) = Frq(1,2)+1; % MISS
-        elseif t2_reconf(row)==confidence && t2_corr(row)==0
+        elseif reconf(row)==confidence && correct(row)==0
             Frq(2,2) = Frq(2,2)+1; % CORRECT REJECT
         end
     end

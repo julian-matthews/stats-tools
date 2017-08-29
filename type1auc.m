@@ -52,11 +52,17 @@ Cumulative_Frequencies = Frq_Cum;
 
 % Alternative method using trapz seems to give same result as AUC function
 % Check the plot:
-% plot([0 Frq_Cum(2,:)],[0 Frq_Cum(1,:)])
+% plot([0 Frq_Cum(2,:)],[0 Frq_Cum(1,:)],'g:')
 % trapz([0 Frq_Cum(2,:)],[0 Frq_Cum(1,:)])
+% [X,Y,T,AUC]=perfcurve(signal,decision,1)
 
 % Calculate area under ROC curve and save as Type_One_AUC
 Type_One_AUC = AreaUnderROC([Frq_Cum(1,:);Frq_Cum(2,:)]');
+
+if Frq(5:8,1)==0
+    % See for details: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4356897/
+    disp('No False Positives reported, AUC might be biased in this instance')
+end
 
 %% Dprime & CRITERION: ASSUMES -1 IS HIT
 % Includes loglinear correction approach from Hautus,1995

@@ -59,9 +59,14 @@ Cumulative_Frequencies = Frq_Cum;
 % Calculate area under ROC curve and save as Type_One_AUC
 Type_One_AUC = AreaUnderROC([Frq_Cum(1,:);Frq_Cum(2,:)]');
 
-if sum(Frq(5:8,1))==0
+if sum(Frq(1,5:8))==0 && sum(Frq(2,1:4))>0  && Type_One_AUC==1
+    % Type 1 AUC == 1 but there are a >0 number of False Alarms
+    disp(['Perfect classification reported as a product of class imbalance'...
+        ', AUC recorded as NaN. Consider subject removal or use of d-prime.'])
+    Type_One_AUC = NaN;
+elseif sum(Frq(1,5:8))==0 && sum(Frq(2,1:4))>0
     % See for details: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4356897/
-    disp('No False Positives reported, AUC might be biased in this instance')
+    disp('No False Positives reported, AUC might be biased in this instance.')
 end
 
 %% Dprime & CRITERION: ASSUMES -1 IS HIT

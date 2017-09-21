@@ -49,7 +49,7 @@ else
     
     if perfcurve_flag ~= 1 || max(confidence) < 4
         %% METHOD BY AreaUnderROC
-        if max(confidence) < 4
+        if perfcurve_flag == 1 && max(confidence) < 4
             disp('Confidence level 4 not used, employing Kunimoto technique')
         end
         

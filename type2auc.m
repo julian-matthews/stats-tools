@@ -46,6 +46,7 @@ else
     
     if perfcurve_flag ~= 1 || max(confidence) < 4
         %% METHOD BY AreaUnderROC
+        disp('Employing AreaUnderROC technique')
         
         for conf = 1:3
             

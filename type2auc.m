@@ -1,4 +1,5 @@
 %% TYPE 2 AUC: Kunimoto & Perfcurve method
+%
 % Computes Type 2 AUC using MATLAB perfcurve function and fitglm. 
 % Input vectors of 'correct' and 'confidence' for default behaviour.
 %
@@ -7,12 +8,12 @@
 %
 % Fits using Kunimoto technique if the maximum confidence judgement is <4
 % (Perfcurve overestimates metacognition in this case) or Perfcurve_flag is
-% specified.
+% specified. See Kaunitz et al (2016, PsychSci) for description of this.
 %
 % If only a single confidence level or correctness is recorded, by default
 % a NaN is returned. Specify roc_flag to bypass NaN and compute
 % metacognition using Fleming & Lau's (2014) type2roc.m technique (assuming
-% it is added to path).
+% it is added to path: see github.com/julian-matthews/stats-tools
 %
 % Julian Matthews 21/09/2017
 

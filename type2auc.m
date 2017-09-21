@@ -4,7 +4,7 @@
 % Input vectors of 'correct' and 'confidence' for default behaviour.
 %
 % correct = 1 or 0 ('correct' to 'incorrect')
-% confidence = 1:4 ('low' to 'high' confidence respectively)
+% confidence = 1:4 (absolute 'low' to 'high' confidence respectively)
 %
 % Fits using Kunimoto technique if the maximum confidence judgement is <4
 % (Perfcurve overestimates metacognition in this case) or Perfcurve_flag is
@@ -26,6 +26,9 @@ if nargin < 3
 elseif nargin == 3
     perfcurve_flag = 1;
 end
+
+% Ensure absolute confidence values
+confidence = abs(confidence);
 
 %% CONTROL FOR MISSING CLASSIFIERS
 if size(unique(correct),2) == 1 && roc_flag == 0

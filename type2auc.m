@@ -31,16 +31,16 @@ end
 confidence = abs(confidence);
 
 %% CONTROL FOR MISSING CLASSIFIERS
-if size(unique(correct),2) == 1 && roc_flag == 0
+if ~isvector(correct) && roc_flag == 0
     disp('All responses are either correct or incorrect, Type2 coded as NaN')
     type2 = NaN;
-elseif size(unique(correct),2) == 1 && roc_flag ~= 0
+elseif ~isvector(correct) && roc_flag ~= 0
     disp('All responses are either correct or incorrect but roc_flagged. Type2roc employed with confid levels = 4')
     type2 = type2roc(correct,confidence,4); % Assumes 4-level confidence
-elseif size(unique(confidence),2) == 1 && roc_flag == 0
+elseif ~isvector(confidence) && roc_flag == 0
     disp('Only one confidence level specified, Type2 coded as NaN')
     type2 = NaN;
-elseif size(unique(correct),2) == 1 && roc_flag ~= 0
+elseif ~isvector(confidence) && roc_flag ~= 0
     disp('Only one confidence level specified but roc_flagged. Type2roc employed with confid levels = 4')
     type2 = type2roc(correct,confidence,4); % Assumes 4-level confidence
 else
@@ -49,7 +49,9 @@ else
     
     if perfcurve_flag ~= 1 || max(confidence) < 4
         %% METHOD BY AreaUnderROC
-        disp('Employing AreaUnderROC technique')
+        if max(confidence) < 4
+            disp('Confidence level 4 not used, employing Kunimoto technique')
+        end
         
         for conf = 1:3
             

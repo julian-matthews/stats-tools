@@ -1,6 +1,6 @@
 %% TYPE 2 AUC: Kunimoto & Perfcurve method
 %
-% Computes Type 2 AUC using MATLAB perfcurve function and fitglm. 
+% Computes Type 2 AUC using MATLAB perfcurve function and fitglm.
 % Input vectors of 'correct' and 'confidence' for default behaviour.
 %
 % correct = 1 or 0 ('correct' to 'incorrect')
@@ -27,65 +27,70 @@ elseif nargin == 3
     perfcurve_flag = 1;
 end
 
-% Ensure absolute confidence values
-confidence = abs(confidence);
-
-%% CONTROL FOR MISSING CLASSIFIERS
-if ~isvector(correct) && roc_flag == 0
-    disp('All responses are either correct or incorrect, Type2 coded as NaN')
+if isempty(confidence)
+    % Empty input: can happen on iterative data processing
+    disp('Empty input, coding as NaN');
     type2 = NaN;
-elseif ~isvector(correct) && roc_flag ~= 0
-    disp('All responses are either correct or incorrect but roc_flagged. Type2roc employed with confid levels = 4')
-    type2 = type2roc(correct,confidence,4); % Assumes 4-level confidence
-elseif ~isvector(confidence) && roc_flag == 0
-    disp('Only one confidence level specified, Type2 coded as NaN')
-    type2 = NaN;
-elseif ~isvector(confidence) && roc_flag ~= 0
-    disp('Only one confidence level specified but roc_flagged. Type2roc employed with confid levels = 4')
-    type2 = type2roc(correct,confidence,4); % Assumes 4-level confidence
 else
+    % Ensure absolute confidence values
+    confidence = abs(confidence);
     
-    clear type2 hitrate FArate
-    
-    if perfcurve_flag ~= 1 || max(confidence) < 4
-        %% METHOD BY AreaUnderROC
-        if perfcurve_flag == 1 && max(confidence) < 4
-            disp('Confidence level 4 not used, employing Kunimoto technique')
-        end
-        
-        for conf = 1:3
-            
-            % Compute number of metacognitive 'hits'
-            rows = confidence>conf & correct==1;
-            hits = sum(rows);
-            
-            % Compute number of metacognitive 'false alarms'
-            rows = confidence>conf & correct==0;
-            FAs = sum(rows);
-            
-            % Calculate hit rate and false alarm rate
-            HR = hits / sum(correct==1); hitrate(conf) = HR; %#ok<*AGROW>
-            FAR = FAs / sum(correct==0);  FArate(conf) = FAR;
-            
-        end
-        
-        type2 = AreaUnderROC([1 hitrate 0; 1 FArate 0]');
-        
+    %% CONTROL FOR MISSING CLASSIFIERS
+    if ~isvector(correct) && roc_flag == 0
+        disp('All responses are either correct or incorrect, Type2 coded as NaN')
+        type2 = NaN;
+    elseif ~isvector(correct) && roc_flag ~= 0
+        disp('All responses are either correct or incorrect but roc_flagged. Type2roc employed with confid levels = 4')
+        type2 = type2roc(correct,confidence,4); % Assumes 4-level confidence
+    elseif ~isvector(confidence) && roc_flag == 0
+        disp('Only one confidence level specified, Type2 coded as NaN')
+        type2 = NaN;
+    elseif ~isvector(confidence) && roc_flag ~= 0
+        disp('Only one confidence level specified but roc_flagged. Type2roc employed with confid levels = 4')
+        type2 = type2roc(correct,confidence,4); % Assumes 4-level confidence
     else
-        %% METHOD BY PERFCURVE
         
-        resp = correct; % 1/0 for correct/incorrect
-        pred = confidence; % Vector from 1:4
+        clear type2 hitrate FArate
         
-        mdl = fitglm(pred,resp,'Distribution','binomial',...
-            'Link','logit','Intercept',false);
-        scores = mdl.Fitted.Probability;
-        
-        [~,~,~,type2] = perfcurve(correct,scores,1);
-        
+        if perfcurve_flag ~= 1 || max(confidence) < 4
+            %% METHOD BY AreaUnderROC
+            if perfcurve_flag == 1 && max(confidence) < 4
+                disp('Confidence level 4 not used, employing Kunimoto technique')
+            end
+            
+            for conf = 1:3
+                
+                % Compute number of metacognitive 'hits'
+                rows = confidence>conf & correct==1;
+                hits = sum(rows);
+                
+                % Compute number of metacognitive 'false alarms'
+                rows = confidence>conf & correct==0;
+                FAs = sum(rows);
+                
+                % Calculate hit rate and false alarm rate
+                HR = hits / sum(correct==1); hitrate(conf) = HR; %#ok<*AGROW>
+                FAR = FAs / sum(correct==0);  FArate(conf) = FAR;
+                
+            end
+            
+            type2 = AreaUnderROC([1 hitrate 0; 1 FArate 0]');
+            
+        else
+            %% METHOD BY PERFCURVE
+            
+            resp = correct; % 1/0 for correct/incorrect
+            pred = confidence; % Vector from 1:4
+            
+            mdl = fitglm(pred,resp,'Distribution','binomial',...
+                'Link','logit','Intercept',false);
+            scores = mdl.Fitted.Probability;
+            
+            [~,~,~,type2] = perfcurve(correct,scores,1);
+            
+        end
     end
 end
-
 end
 
 %% Basic AreaUnderROC function for portability

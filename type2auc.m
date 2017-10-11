@@ -36,16 +36,16 @@ else
     confidence = abs(confidence);
     
     %% CONTROL FOR MISSING CLASSIFIERS
-    if ~isvector(correct) && roc_flag == 0
+    if isscalar(unique(correct)) && roc_flag == 0
         disp('All responses are either correct or incorrect, Type2 coded as NaN')
         type2 = NaN;
-    elseif ~isvector(correct) && roc_flag ~= 0
+    elseif isscalar(unique(correct)) && roc_flag ~= 0
         disp('All responses are either correct or incorrect but roc_flagged. Type2roc employed with confid levels = 4')
         type2 = type2roc(correct,confidence,4); % Assumes 4-level confidence
-    elseif ~isvector(confidence) && roc_flag == 0
+    elseif isscalar(unique(confidence)) && roc_flag == 0
         disp('Only one confidence level specified, Type2 coded as NaN')
         type2 = NaN;
-    elseif ~isvector(confidence) && roc_flag ~= 0
+    elseif isscalar(unique(confidence)) && roc_flag ~= 0
         disp('Only one confidence level specified but roc_flagged. Type2roc employed with confid levels = 4')
         type2 = type2roc(correct,confidence,4); % Assumes 4-level confidence
     else
